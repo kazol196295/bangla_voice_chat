@@ -19,7 +19,7 @@ DEBUG = "RENDER" not in os.environ
 
 # Allows your local PC and Render to host the app
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".onrender.com"]
-
+CSRF_TRUSTED_ORIGINS = ["https://*.onrender.com"]
 # Application definition
 INSTALLED_APPS = [
     "daphne",  # Must be at the top for Channels

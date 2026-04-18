@@ -442,7 +442,9 @@
 
       // Initialize WebSocket
       function initWebSocket() {
-        const wsUrl = `ws://${window.location.host}/ws/voice-chat/`;
+        // Automatically choose between secure (wss) and insecure (ws)
+        const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+        const wsUrl = `${protocol}${window.location.host}/ws/voice-chat/`;
 
         ws = new WebSocket(wsUrl);
 
