@@ -2,6 +2,7 @@
 Django settings for bangla_voice_chat project.
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -10,10 +11,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "django-insecure-your-secret-key-change-this-in-production"
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# ==========================================
+# SMART ENVIRONMENT SETTINGS
+# ==========================================
+# Automatically turns off DEBUG when deployed to Render
+DEBUG = "RENDER" not in os.environ
 
-ALLOWED_HOSTS = ["*"]
+# Allows your local PC and Render to host the app
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".onrender.com"]
 
 # Application definition
 INSTALLED_APPS = [
@@ -31,6 +36,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -76,7 +82,10 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # ==========================================
-# KAGGLE API CONNECTION
+# SMART KAGGLE API CONNECTION
 # ==========================================
-# UPDATE THIS WITH YOUR CURRENT NGROK URL
-KAGGLE_API_URL = "https://peremptory-fourthly-argelia.ngrok-free.dev"
+# It will look for the Render Environment Variable first.
+# If you are testing locally, it falls back to your current Ngrok link.
+KAGGLE_API_URL = os.environ.get(
+    "KAGGLE_API_URL", "https://peremptory-fourthly-argelia.ngrok-free.dev"
+)
