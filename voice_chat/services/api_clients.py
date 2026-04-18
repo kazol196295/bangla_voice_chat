@@ -4,8 +4,11 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+# The custom error message we will send to the UI
+CONNECTION_ERROR_MSG = "কানেকশন ব্যর্থ হয়েছে! দয়া করে Kaggle backend চেক করুন এবং নতুন Ngrok URL সাইডবারে পেস্ট করুন।" 
+# (Translation: Connection failed! Please check the Kaggle backend and paste the new Ngrok URL in the sidebar.)
+
 class UnifiedAIClient:
-    # We no longer read from settings.py here!
     
     def transcribe(self, base_url: str, audio_data: bytes) -> str:
         try:
@@ -16,6 +19,9 @@ class UnifiedAIClient:
             response = requests.post(f"{url}/transcribe", files=files)
             response.raise_for_status()
             return response.json().get("transcription", "")
+        except requests.exceptions.RequestException:
+            # This triggers if Ngrok is down or the URL is wrong
+            raise Exception(CONNECTION_ERROR_MSG)
         except Exception as e:
             logger.error(f"STT Error: {e}")
             return ""
@@ -27,6 +33,8 @@ class UnifiedAIClient:
             response = requests.post(f"{url}/api/chat", json=payload)
             response.raise_for_status()
             return response.json().get("text", "")
+        except requests.exceptions.RequestException:
+            raise Exception(CONNECTION_ERROR_MSG)
         except Exception as e:
             logger.error(f"LLM Error: {e}")
             return "দুঃখিত, সার্ভারের সাথে সংযোগ করা যাচ্ছে না।"
@@ -39,6 +47,8 @@ class UnifiedAIClient:
             response.raise_for_status()
             b64_audio = response.json().get("audio_base64", "")
             return base64.b64decode(b64_audio) if b64_audio else b""
+        except requests.exceptions.RequestException:
+            raise Exception(CONNECTION_ERROR_MSG)
         except Exception as e:
             logger.error(f"TTS Error: {e}")
             return b""

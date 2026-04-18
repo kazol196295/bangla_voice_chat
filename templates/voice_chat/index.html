@@ -203,13 +203,21 @@
     </div>
 
     <script>
-      // Settings Logic
+      // ==========================================
+      // Settings Logic (With Default URL)
+      // ==========================================
       const urlInput = document.getElementById('kaggleUrl');
+      const DEFAULT_URL = "https://peremptory-fourthly-argelia.ngrok-free.dev";
       
-      // Load saved URL on startup
+      // Load saved URL on startup, or set the default
       window.onload = () => {
         const savedUrl = localStorage.getItem('kaggleApiUrl');
-        if (savedUrl) urlInput.value = savedUrl;
+        if (savedUrl) {
+          urlInput.value = savedUrl;
+        } else {
+          urlInput.value = DEFAULT_URL;
+          localStorage.setItem('kaggleApiUrl', DEFAULT_URL);
+        }
       };
 
       function saveUrl() {
