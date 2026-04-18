@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>বাংলা ভয়েস চ্যাট AI</title>
+    <title>KothaAi-Bangla Voice Chat Ai Assistant </title>
     <style>
       * {
         margin: 0;
@@ -281,7 +281,7 @@
       <div class="container">
         <header class="header">
           <button class="menu-btn" onclick="toggleSidebar()">⚙️</button>
-          <h1>🎙️ বাংলা ভয়েস চ্যাট</h1>
+          <h1>🎙️ KothaAI</h1>
           <p class="subtitle">আপনার বাংলা ভয়েস সহকারী</p>
         </header>
 
@@ -585,9 +585,14 @@
       function showError(message) {
         const errorDiv = document.createElement("div");
         errorDiv.className = "error-message";
-        errorDiv.textContent = message;
+        
+        // CRITICAL CHANGE: Use innerHTML instead of textContent so the <a> tag renders!
+        errorDiv.innerHTML = message; 
+        
         chatContainer.appendChild(errorDiv);
-        setTimeout(() => { errorDiv.remove(); }, 5000);
+        
+        // Increased time to 8 seconds so you can click the link
+        setTimeout(() => { errorDiv.remove(); }, 10000); 
         scrollToBottom();
       }
 

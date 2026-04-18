@@ -32,7 +32,7 @@ class VoiceChatConsumer(AsyncWebsocketConsumer):
             return
 
         try:
-            # 1. STT Phase
+            # 1. STT Phase (Only if user spoke)
             if is_audio:
                 await self.send(json.dumps({'type': 'status', 'message': 'শুনছি...'}))
                 text = await self.run_api('transcribe', kaggle_url, input_data)
@@ -43,22 +43,24 @@ class VoiceChatConsumer(AsyncWebsocketConsumer):
             else:
                 text = input_data
 
-            # 2. LLM Phase
+            # 2. LLM Phase (Always runs)
             await self.send(json.dumps({'type': 'status', 'message': 'ভাবছি...'}))
             response = await self.run_api('chat', kaggle_url, text, self.history)
             await self.send(json.dumps({'type': 'response', 'text': response}))
 
-            # 3. TTS Phase
-            await self.send(json.dumps({'type': 'status', 'message': 'বলছি...'}))
-            audio_bytes = await self.run_api('synthesize', kaggle_url, response)
-            
-            if audio_bytes:
-                await self.send(json.dumps({
-                    'type': 'audio_response',
-                    'audio': base64.b64encode(audio_bytes).decode('utf-8'),
-                    'is_last': True
-                }))
+            # 3. TTS Phase (ONLY runs if the user spoke)
+            if is_audio:
+                await self.send(json.dumps({'type': 'status', 'message': 'বলছি...'}))
+                audio_bytes = await self.run_api('synthesize', kaggle_url, response)
+                
+                if audio_bytes:
+                    await self.send(json.dumps({
+                        'type': 'audio_response',
+                        'audio': base64.b64encode(audio_bytes).decode('utf-8'),
+                        'is_last': True
+                    }))
 
+            # Finish pipeline
             await self.send(json.dumps({'type': 'status', 'stage': 'complete'}))
             
             # Keep context short
