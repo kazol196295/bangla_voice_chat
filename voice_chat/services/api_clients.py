@@ -4,8 +4,10 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-# The custom error message we will send to the UI
-CONNECTION_ERROR_MSG = "কানেকশন ব্যর্থ হয়েছে! দয়া করে Kaggle backend চেক করুন এবং নতুন Ngrok URL সাইডবারে পেস্ট করুন।" 
+
+# The custom error message with a shortened clickable link
+CONNECTION_ERROR_MSG = 'কানেকশন ব্যর্থ হয়েছে! দয়া করে [Kaggle backend](https://www.kaggle.com/code/kawsarahmedkazol/backend-bangla-voice-ai-api) চেক করুন এবং নতুন Ngrok URL সাইডবারে পেস্ট করুন।'
+
 # (Translation: Connection failed! Please check the Kaggle backend and paste the new Ngrok URL in the sidebar.)
 
 class UnifiedAIClient:
