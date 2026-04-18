@@ -13,412 +13,223 @@
 
       body {
         font-family: "Noto Sans Bengali", "Hind Siliguri", sans-serif;
-        background: linear-gradient(
-          135deg,
-          #1a1a2e 0%,
-          #16213e 50%,
-          #0f3460 100%
-        );
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
         min-height: 100vh;
         color: #fff;
-        direction: ltr;
+        display: flex;
+        justify-content: center;
       }
 
-      .container {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 20px;
+      /* Layout */
+      .app-wrapper {
+        display: flex;
+        width: 100%;
+        max-width: 1100px;
         height: 100vh;
+        background: rgba(0, 0, 0, 0.2);
+      }
+
+      /* Sidebar */
+      .sidebar {
+        width: 300px;
+        background: rgba(0, 0, 0, 0.4);
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 20px;
         display: flex;
         flex-direction: column;
+        gap: 20px;
       }
 
-      .header {
-        text-align: center;
-        padding: 20px 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      }
-
-      .header h1 {
-        font-size: 1.8rem;
+      .sidebar-header {
+        font-size: 1.2rem;
         color: #e94560;
-        margin-bottom: 5px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 10px;
+        margin-bottom: 10px;
       }
 
-      .header .subtitle {
-        color: rgba(255, 255, 255, 0.6);
-        font-size: 0.9rem;
-      }
-
-      .status-bar {
+      .setting-group {
         display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 15px;
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 10px;
-        margin: 15px 0;
+        flex-direction: column;
+        gap: 8px;
       }
 
-      .status-indicator {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background: #666;
-        transition: background 0.3s;
-      }
-
-      .status-indicator.connected {
-        background: #4caf50;
-        box-shadow: 0 0 10px #4caf50;
-      }
-
-      .status-indicator.processing {
-        background: #ff9800;
-        animation: pulse 1s infinite;
-      }
-
-      @keyframes pulse {
-        0%,
-        100% {
-          opacity: 1;
-        }
-        50% {
-          opacity: 0.5;
-        }
-      }
-
-      .status-text {
-        font-size: 0.9rem;
+      .setting-group label {
+        font-size: 0.85rem;
         color: rgba(255, 255, 255, 0.7);
       }
 
-      .chat-container {
-        flex: 1;
-        overflow-y: auto;
-        padding: 15px 0;
-        scroll-behavior: smooth;
-      }
-
-      .chat-container::-webkit-scrollbar {
-        width: 5px;
-      }
-
-      .chat-container::-webkit-scrollbar-thumb {
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 10px;
-      }
-
-      .message {
-        display: flex;
-        margin-bottom: 15px;
-        animation: fadeIn 0.3s ease;
-      }
-
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(10px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .message.user {
-        justify-content: flex-end;
-      }
-
-      .message.assistant {
-        justify-content: flex-start;
-      }
-
-      .message-bubble {
-        max-width: 80%;
-        padding: 12px 16px;
-        border-radius: 18px;
-        line-height: 1.6;
-        font-size: 0.95rem;
-      }
-
-      .message.user .message-bubble {
-        background: #e94560;
-        border-bottom-right-radius: 5px;
-      }
-
-      .message.assistant .message-bubble {
-        background: rgba(255, 255, 255, 0.1);
-        border-bottom-left-radius: 5px;
-      }
-
-      .message-label {
-        font-size: 0.75rem;
-        color: rgba(255, 255, 255, 0.5);
-        margin-bottom: 5px;
-      }
-
-      .message.user .message-label {
-        text-align: right;
-      }
-
-      .controls {
-        padding: 20px 0;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 15px;
-      }
-
-      .mic-button {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        border: none;
-        background: linear-gradient(135deg, #e94560, #c23152);
-        color: white;
-        font-size: 2rem;
-        cursor: pointer;
-        transition: all 0.3s;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 5px 20px rgba(233, 69, 96, 0.4);
-      }
-
-      .mic-button:hover {
-        transform: scale(1.05);
-        box-shadow: 0 5px 30px rgba(233, 69, 96, 0.6);
-      }
-
-      .mic-button.recording {
-        background: linear-gradient(135deg, #ff0000, #cc0000);
-        animation: recording 1.5s infinite;
-      }
-
-      @keyframes recording {
-        0%,
-        100% {
-          box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.4);
-        }
-        50% {
-          box-shadow: 0 0 0 20px rgba(255, 0, 0, 0);
-        }
-      }
-
-      .mic-button:disabled {
-        background: #666;
-        cursor: not-allowed;
-        box-shadow: none;
-      }
-
-      .text-input-container {
-        display: flex;
+      .url-input {
         width: 100%;
-        gap: 10px;
-      }
-
-      .text-input {
-        flex: 1;
-        padding: 12px 20px;
-        border-radius: 25px;
+        padding: 10px;
+        border-radius: 8px;
         border: 1px solid rgba(255, 255, 255, 0.2);
         background: rgba(255, 255, 255, 0.05);
         color: white;
-        font-size: 1rem;
-        font-family: inherit;
+        font-size: 0.85rem;
         outline: none;
-        transition: border-color 0.3s;
       }
 
-      .text-input:focus {
+      .url-input:focus {
         border-color: #e94560;
       }
 
-      .text-input::placeholder {
-        color: rgba(255, 255, 255, 0.3);
-      }
-
-      .send-button {
-        padding: 12px 24px;
-        border-radius: 25px;
-        border: none;
+      .save-btn {
+        padding: 10px;
         background: #e94560;
+        border: none;
+        border-radius: 8px;
         color: white;
         cursor: pointer;
-        font-size: 1rem;
-        transition: background 0.3s;
+        transition: 0.3s;
       }
 
-      .send-button:hover {
+      .save-btn:hover {
         background: #c23152;
       }
 
-      .send-button:disabled {
-        background: #666;
-        cursor: not-allowed;
-      }
-
-      .clear-button {
-        padding: 8px 16px;
-        border-radius: 15px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        background: transparent;
-        color: rgba(255, 255, 255, 0.6);
-        cursor: pointer;
-        font-size: 0.8rem;
-        transition: all 0.3s;
-      }
-
-      .clear-button:hover {
-        background: rgba(255, 255, 255, 0.1);
-        color: white;
-      }
-
-      .processing-indicator {
+      /* Main Chat Area */
+      .container {
+        flex: 1;
         display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 15px;
-        color: rgba(255, 255, 255, 0.6);
-        font-size: 0.9rem;
+        flex-direction: column;
+        padding: 20px;
+        position: relative;
       }
 
-      .processing-dots {
-        display: flex;
-        gap: 3px;
-      }
-
-      .processing-dots span {
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.4);
-        animation: dotPulse 1.4s infinite;
-      }
-
-      .processing-dots span:nth-child(2) {
-        animation-delay: 0.2s;
-      }
-
-      .processing-dots span:nth-child(3) {
-        animation-delay: 0.4s;
-      }
-
-      @keyframes dotPulse {
-        0%,
-        80%,
-        100% {
-          transform: scale(0.6);
-          opacity: 0.4;
-        }
-        40% {
-          transform: scale(1);
-          opacity: 1;
-        }
-      }
-
-      .welcome-message {
-        text-align: center;
-        padding: 40px 20px;
-        color: rgba(255, 255, 255, 0.5);
-      }
-
-      .welcome-message .icon {
-        font-size: 3rem;
-        margin-bottom: 15px;
-      }
-
-      .error-message {
-        background: rgba(244, 67, 54, 0.2);
-        border: 1px solid rgba(244, 67, 54, 0.5);
-        color: #ff6b6b;
-        padding: 10px 15px;
-        border-radius: 10px;
-        margin: 10px 0;
-        font-size: 0.9rem;
-      }
+      /* Keep your existing chat styles below */
+      .header { text-align: center; padding-bottom: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+      .header h1 { font-size: 1.8rem; color: #e94560; margin-bottom: 5px; }
+      .header .subtitle { color: rgba(255, 255, 255, 0.6); font-size: 0.9rem; }
+      
+      .status-bar { display: flex; align-items: center; gap: 10px; padding: 10px 15px; background: rgba(255, 255, 255, 0.05); border-radius: 10px; margin: 15px 0; }
+      .status-indicator { width: 10px; height: 10px; border-radius: 50%; background: #666; transition: background 0.3s; }
+      .status-indicator.connected { background: #4caf50; box-shadow: 0 0 10px #4caf50; }
+      .status-indicator.processing { background: #ff9800; animation: pulse 1s infinite; }
+      @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+      .status-text { font-size: 0.9rem; color: rgba(255, 255, 255, 0.7); }
+      
+      .chat-container { flex: 1; overflow-y: auto; padding: 15px 0; scroll-behavior: smooth; }
+      .chat-container::-webkit-scrollbar { width: 5px; }
+      .chat-container::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; }
+      
+      .message { display: flex; margin-bottom: 15px; animation: fadeIn 0.3s ease; }
+      @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+      .message.user { justify-content: flex-end; }
+      .message.assistant { justify-content: flex-start; }
+      
+      .message-bubble { max-width: 80%; padding: 12px 16px; border-radius: 18px; line-height: 1.6; font-size: 0.95rem; }
+      .message.user .message-bubble { background: #e94560; border-bottom-right-radius: 5px; }
+      .message.assistant .message-bubble { background: rgba(255, 255, 255, 0.1); border-bottom-left-radius: 5px; }
+      
+      .message-label { font-size: 0.75rem; color: rgba(255, 255, 255, 0.5); margin-bottom: 5px; }
+      .message.user .message-label { text-align: right; }
+      
+      .controls { padding: 20px 0; border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; flex-direction: column; align-items: center; gap: 15px; }
+      .mic-button { width: 80px; height: 80px; border-radius: 50%; border: none; background: linear-gradient(135deg, #e94560, #c23152); color: white; font-size: 2rem; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 20px rgba(233, 69, 96, 0.4); }
+      .mic-button:hover { transform: scale(1.05); box-shadow: 0 5px 30px rgba(233, 69, 96, 0.6); }
+      .mic-button.recording { background: linear-gradient(135deg, #ff0000, #cc0000); animation: recording 1.5s infinite; }
+      @keyframes recording { 0%, 100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.4); } 50% { box-shadow: 0 0 0 20px rgba(255, 0, 0, 0); } }
+      .mic-button:disabled { background: #666; cursor: not-allowed; box-shadow: none; }
+      
+      .text-input-container { display: flex; width: 100%; gap: 10px; }
+      .text-input { flex: 1; padding: 12px 20px; border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.05); color: white; font-size: 1rem; outline: none; transition: border-color 0.3s; }
+      .text-input:focus { border-color: #e94560; }
+      .send-button { padding: 12px 24px; border-radius: 25px; border: none; background: #e94560; color: white; cursor: pointer; font-size: 1rem; transition: background 0.3s; }
+      .send-button:hover { background: #c23152; }
+      .send-button:disabled { background: #666; cursor: not-allowed; }
+      .clear-button { padding: 8px 16px; border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.2); background: transparent; color: rgba(255, 255, 255, 0.6); cursor: pointer; font-size: 0.8rem; transition: all 0.3s; }
+      .clear-button:hover { background: rgba(255, 255, 255, 0.1); color: white; }
+      
+      .processing-indicator { display: flex; align-items: center; gap: 10px; padding: 10px 15px; color: rgba(255, 255, 255, 0.6); font-size: 0.9rem; }
+      .processing-dots { display: flex; gap: 3px; }
+      .processing-dots span { width: 6px; height: 6px; border-radius: 50%; background: rgba(255, 255, 255, 0.4); animation: dotPulse 1.4s infinite; }
+      .processing-dots span:nth-child(2) { animation-delay: 0.2s; }
+      .processing-dots span:nth-child(3) { animation-delay: 0.4s; }
+      
+      .welcome-message { text-align: center; padding: 40px 20px; color: rgba(255, 255, 255, 0.5); }
+      .welcome-message .icon { font-size: 3rem; margin-bottom: 15px; }
+      .error-message { background: rgba(244, 67, 54, 0.2); border: 1px solid rgba(244, 67, 54, 0.5); color: #ff6b6b; padding: 10px 15px; border-radius: 10px; margin: 10px 0; font-size: 0.9rem; }
     </style>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   </head>
   <body>
-    <div class="container">
-      <header class="header">
-        <h1>🎙️ বাংলা ভয়েস চ্যাট AI</h1>
-        <p class="subtitle">আপনার বাংলা ভয়েস সহকারী</p>
-      </header>
-
-      <div class="status-bar">
-        <div class="status-indicator" id="statusIndicator"></div>
-        <span class="status-text" id="statusText">সংযোগ হচ্ছে...</span>
-        <button
-          class="clear-button"
-          onclick="clearChat()"
-          style="margin-left: auto"
-        >
-          ক্লিয়ার
-        </button>
-      </div>
-
-      <div class="chat-container" id="chatContainer">
-        <div class="welcome-message" id="welcomeMessage">
-          <div class="icon">🎤</div>
-          <p>মাইক্রোফোন বাটনে ক্লিক করে বাংলায় কথা বলুন</p>
-          <p style="margin-top: 10px; font-size: 0.85rem">
-            অথবা নিচে টেক্সট লিখে পাঠাতে পারেন
-          </p>
+    <div class="app-wrapper">
+      
+      <div class="sidebar">
+        <div class="sidebar-header">⚙️ সেটিংস (Settings)</div>
+        <div class="setting-group">
+          <label for="kaggleUrl">Kaggle API URL (Ngrok)</label>
+          <input type="text" id="kaggleUrl" class="url-input" placeholder="https://....ngrok-free.app" />
+          <button class="save-btn" onclick="saveUrl()">সংরক্ষণ করুন</button>
         </div>
+        <div id="saveConfirm" style="color: #4caf50; font-size: 0.8rem; display: none;">Saved successfully!</div>
       </div>
 
-      <div class="controls">
-        <div
-          id="processingIndicator"
-          class="processing-indicator"
-          style="display: none"
-        >
-          <div class="processing-dots">
-            <span></span>
-            <span></span>
-            <span></span>
+      <div class="container">
+        <header class="header">
+          <h1>🎙️ বাংলা ভয়েস চ্যাট AI</h1>
+          <p class="subtitle">আপনার বাংলা ভয়েস সহকারী</p>
+        </header>
+
+        <div class="status-bar">
+          <div class="status-indicator" id="statusIndicator"></div>
+          <span class="status-text" id="statusText">সংযোগ হচ্ছে...</span>
+          <button class="clear-button" onclick="clearChat()" style="margin-left: auto">ক্লিয়ার</button>
+        </div>
+
+        <div class="chat-container" id="chatContainer">
+          <div class="welcome-message" id="welcomeMessage">
+            <div class="icon">🎤</div>
+            <p>মাইক্রোফোন বাটনে ক্লিক করে বাংলায় কথা বলুন</p>
+            <p style="margin-top: 10px; font-size: 0.85rem">অথবা নিচে টেক্সট লিখে পাঠাতে পারেন</p>
           </div>
-          <span id="processingText">প্রসেসিং...</span>
         </div>
 
-        <button
-          class="mic-button"
-          id="micButton"
-          onclick="toggleRecording()"
-          disabled
-        >
-          🎤
-        </button>
+        <div class="controls">
+          <div id="processingIndicator" class="processing-indicator" style="display: none">
+            <div class="processing-dots"><span></span><span></span><span></span></div>
+            <span id="processingText">প্রসেসিং...</span>
+          </div>
 
-        <div class="text-input-container">
-          <input
-            type="text"
-            class="text-input"
-            id="textInput"
-            placeholder="বাংলায় লিখুন..."
-            onkeypress="if (event.key === 'Enter') sendTextMessage();"
-          />
-          <button
-            class="send-button"
-            id="sendButton"
-            onclick="sendTextMessage()"
-            disabled
-          >
-            পাঠান
-          </button>
+          <button class="mic-button" id="micButton" onclick="toggleRecording()" disabled>🎤</button>
+
+          <div class="text-input-container">
+            <input type="text" class="text-input" id="textInput" placeholder="বাংলায় লিখুন..." onkeypress="if (event.key === 'Enter') sendTextMessage();" />
+            <button class="send-button" id="sendButton" onclick="sendTextMessage()" disabled>পাঠান</button>
+          </div>
         </div>
       </div>
     </div>
 
     <script>
-      // State
+      // Settings Logic
+      const urlInput = document.getElementById('kaggleUrl');
+      
+      // Load saved URL on startup
+      window.onload = () => {
+        const savedUrl = localStorage.getItem('kaggleApiUrl');
+        if (savedUrl) urlInput.value = savedUrl;
+      };
+
+      function saveUrl() {
+        localStorage.setItem('kaggleApiUrl', urlInput.value.trim());
+        document.getElementById('saveConfirm').style.display = 'block';
+        setTimeout(() => document.getElementById('saveConfirm').style.display = 'none', 2000);
+      }
+
+      function getKaggleUrl() {
+        const url = urlInput.value.trim();
+        if (!url) {
+          showError("অনুগ্রহ করে সাইডবারে Kaggle URL দিন");
+          return null;
+        }
+        return url;
+      }
+
+      // ----------------------------------------------------
+      // Rest of your Chat Logic (Updated to send URL)
+      // ----------------------------------------------------
       let ws = null;
       let mediaRecorder = null;
       let audioContext = null;
@@ -427,46 +238,36 @@
       let audioQueue = [];
       let isPlayingAudio = false;
 
-      // DOM Elements
       const micButton = document.getElementById("micButton");
       const sendButton = document.getElementById("sendButton");
       const textInput = document.getElementById("textInput");
       const chatContainer = document.getElementById("chatContainer");
       const statusIndicator = document.getElementById("statusIndicator");
       const statusText = document.getElementById("statusText");
-      const processingIndicator = document.getElementById(
-        "processingIndicator",
-      );
+      const processingIndicator = document.getElementById("processingIndicator");
       const processingText = document.getElementById("processingText");
       const welcomeMessage = document.getElementById("welcomeMessage");
 
-      // Initialize WebSocket
       function initWebSocket() {
-        // Automatically choose between secure (wss) and insecure (ws)
         const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
         const wsUrl = `${protocol}${window.location.host}/ws/voice-chat/`;
 
         ws = new WebSocket(wsUrl);
 
         ws.onopen = () => {
-          console.log("WebSocket connected");
           updateStatus("connected", "সংযুক্ত");
           micButton.disabled = false;
           sendButton.disabled = false;
         };
 
         ws.onclose = () => {
-          console.log("WebSocket disconnected");
           updateStatus("disconnected", "সংযোগ বিচ্ছিন্ন");
           micButton.disabled = true;
           sendButton.disabled = true;
-
-          // Reconnect after 3 seconds
           setTimeout(initWebSocket, 3000);
         };
 
         ws.onerror = (error) => {
-          console.error("WebSocket error:", error);
           updateStatus("error", "সংযোগ ত্রুটি");
         };
 
@@ -476,84 +277,49 @@
         };
       }
 
-      // Handle incoming messages
       function handleMessage(data) {
         switch (data.type) {
-          case "connection":
-            console.log("Connection message:", data.message);
-            break;
-
           case "transcription":
             hideWelcome();
             addMessage("user", data.text);
             break;
-
           case "response":
             addMessage("assistant", data.text);
             break;
-
           case "audio_response":
             audioQueue.push(data.audio);
-            if (data.is_last) {
-              playAudioQueue();
-            }
+            if (data.is_last) playAudioQueue();
             break;
-
           case "status":
-            if (data.stage === "stt") {
-              showProcessing("শুনছি...");
-            } else if (data.stage === "llm") {
-              showProcessing("ভাবছি...");
-            } else if (data.stage === "tts") {
-              showProcessing("বলছি...");
-            } else if (data.stage === "complete") {
-              hideProcessing();
-            } else {
-              showProcessing(data.message);
-            }
+            if (data.stage === "stt") showProcessing("শুনছি...");
+            else if (data.stage === "llm") showProcessing("ভাবছি...");
+            else if (data.stage === "tts") showProcessing("বলছি...");
+            else if (data.stage === "complete") hideProcessing();
+            else showProcessing(data.message);
             break;
-
           case "error":
             hideProcessing();
             showError(data.message);
             break;
-
-          case "pong":
-            // Keepalive response
-            break;
         }
       }
 
-      // Toggle recording
       async function toggleRecording() {
-        if (isRecording) {
-          stopRecording();
-        } else {
-          await startRecording();
-        }
+        if (isRecording) stopRecording();
+        else await startRecording();
       }
 
-      // Start recording
       async function startRecording() {
+        const url = getKaggleUrl();
+        if (!url) return; // Prevent recording if URL is missing
+
         try {
           const stream = await navigator.mediaDevices.getUserMedia({
-            audio: {
-              channelCount: 1,
-              sampleRate: 16000,
-              echoCancellation: true,
-              noiseSuppression: true,
-            },
+            audio: { channelCount: 1, sampleRate: 16000, echoCancellation: true, noiseSuppression: true },
           });
 
           audioChunks = [];
-
-          // Create audio context for resampling if needed
-          audioContext = new (window.AudioContext || window.webkitAudioContext)(
-            {
-              sampleRate: 16000,
-            },
-          );
-
+          audioContext = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 16000 });
           const source = audioContext.createMediaStreamSource(stream);
           const processor = audioContext.createScriptProcessor(4096, 1, 1);
 
@@ -565,8 +331,6 @@
 
           source.connect(processor);
           processor.connect(audioContext.destination);
-
-          // Store for cleanup
           mediaRecorder = { stream, source, processor };
 
           isRecording = true;
@@ -574,65 +338,50 @@
           micButton.innerHTML = "⏹️";
           updateStatus("processing", "রেকর্ডিং...");
         } catch (error) {
-          console.error("Failed to start recording:", error);
           showError("মাইক্রোফোন অ্যাক্সেস করতে সমস্যা হচ্ছে");
         }
       }
 
-      // Stop recording and send
       function stopRecording() {
         if (!mediaRecorder) return;
+        const url = getKaggleUrl();
 
         const { stream, source, processor } = mediaRecorder;
-
         source.disconnect();
         processor.disconnect();
         stream.getTracks().forEach((track) => track.stop());
 
-        if (audioContext) {
-          audioContext.close();
-          audioContext = null;
-        }
+        if (audioContext) { audioContext.close(); audioContext = null; }
 
         isRecording = false;
         micButton.classList.remove("recording");
         micButton.innerHTML = "🎤";
 
-        // Combine audio chunks
-        const totalLength = audioChunks.reduce(
-          (acc, chunk) => acc + chunk.byteLength,
-          0,
-        );
+        const totalLength = audioChunks.reduce((acc, chunk) => acc + chunk.byteLength, 0);
         const combinedBuffer = new ArrayBuffer(totalLength);
         const combinedView = new DataView(combinedBuffer);
 
         let offset = 0;
         for (const chunk of audioChunks) {
           const view = new DataView(chunk);
-          for (let i = 0; i < chunk.byteLength; i++) {
-            combinedView.setUint8(offset++, view.getUint8(i));
-          }
+          for (let i = 0; i < chunk.byteLength; i++) { combinedView.setUint8(offset++, view.getUint8(i)); }
         }
 
-        if (totalLength > 0) {
-          // 1. Show audio player in the UI
+        if (totalLength > 0 && url) {
           const wavBlob = createWavBlob(combinedBuffer, 16000);
           const audioUrl = URL.createObjectURL(wavBlob);
           addAudioMessage("user", audioUrl);
 
-          // 2. Convert the perfect WAV Blob to Base64 and send it
           const reader = new FileReader();
           reader.readAsDataURL(wavBlob);
           reader.onloadend = function () {
-            // This extracts just the base64 string, ignoring the "data:audio/wav;base64," prefix
             const base64Audio = reader.result.split(",")[1];
-
-            ws.send(
-              JSON.stringify({
-                type: "audio",
-                audio: base64Audio,
-              }),
-            );
+            // ADDED KAGGLE URL TO PAYLOAD
+            ws.send(JSON.stringify({
+              type: "audio",
+              audio: base64Audio,
+              kaggle_url: url
+            }));
           };
         }
 
@@ -640,136 +389,92 @@
         mediaRecorder = null;
       }
 
-      // Play audio queue
+      function sendTextMessage() {
+        const text = textInput.value.trim();
+        const url = getKaggleUrl();
+        if (!text || !url) return;
+
+        hideWelcome();
+        addMessage("user", text);
+        textInput.value = "";
+
+        // ADDED KAGGLE URL TO PAYLOAD
+        ws.send(JSON.stringify({
+          type: "text",
+          text: text,
+          kaggle_url: url
+        }));
+      }
+
+      // Utility Functions
       async function playAudioQueue() {
         if (isPlayingAudio || audioQueue.length === 0) return;
-
         isPlayingAudio = true;
-
         while (audioQueue.length > 0) {
-          const base64Audio = audioQueue.shift();
-          await playAudio(base64Audio);
+          await playAudio(audioQueue.shift());
         }
-
         isPlayingAudio = false;
       }
 
-      // Play single audio
       function playAudio(base64Audio) {
         return new Promise((resolve) => {
           const binaryString = atob(base64Audio);
           const bytes = new Uint8Array(binaryString.length);
-          for (let i = 0; i < binaryString.length; i++) {
-            bytes[i] = binaryString.charCodeAt(i);
-          }
-
-          const audioContext = new (
-            window.AudioContext || window.webkitAudioContext
-          )();
-          audioContext.decodeAudioData(
-            bytes.buffer,
-            (buffer) => {
-              const source = audioContext.createBufferSource();
-              source.buffer = buffer;
-              source.connect(audioContext.destination);
-
-              source.onended = () => {
-                audioContext.close();
-                resolve();
-              };
-
-              source.start(0);
-            },
-            (error) => {
-              console.error("Audio decode error:", error);
-              audioContext.close();
-              resolve();
-            },
-          );
+          for (let i = 0; i < binaryString.length; i++) { bytes[i] = binaryString.charCodeAt(i); }
+          const actx = new (window.AudioContext || window.webkitAudioContext)();
+          actx.decodeAudioData(bytes.buffer, (buffer) => {
+            const source = actx.createBufferSource();
+            source.buffer = buffer;
+            source.connect(actx.destination);
+            source.onended = () => { actx.close(); resolve(); };
+            source.start(0);
+          });
         });
       }
 
-      // Add message to chat
       function addMessage(role, text) {
         const messageDiv = document.createElement("div");
         messageDiv.className = `message ${role}`;
-
         const label = role === "user" ? "আপনি" : "AI সহকারী";
-
-        messageDiv.innerHTML = `
-                <div>
-                    <div class="message-label">${label}</div>
-                    <div class="message-bubble">${escapeHtml(text)}</div>
-                </div>
-            `;
-
+        messageDiv.innerHTML = `<div><div class="message-label">${label}</div><div class="message-bubble">${escapeHtml(text)}</div></div>`;
         chatContainer.appendChild(messageDiv);
         scrollToBottom();
       }
 
-      // Show error
+      function addAudioMessage(role, audioUrl) {
+        hideWelcome();
+        const messageDiv = document.createElement("div");
+        messageDiv.className = `message ${role}`;
+        const label = role === "user" ? "আপনি" : "AI সহকারী";
+        messageDiv.innerHTML = `<div><div class="message-label">${label}</div><div class="message-bubble" style="padding: 5px 10px;"><audio controls src="${audioUrl}" style="height: 40px; max-width: 220px; outline: none;"></audio></div></div>`;
+        chatContainer.appendChild(messageDiv);
+        scrollToBottom();
+      }
+
       function showError(message) {
         const errorDiv = document.createElement("div");
         errorDiv.className = "error-message";
         errorDiv.textContent = message;
         chatContainer.appendChild(errorDiv);
-
-        setTimeout(() => {
-          errorDiv.remove();
-        }, 5000);
-
+        setTimeout(() => { errorDiv.remove(); }, 5000);
         scrollToBottom();
       }
 
-      // Update status
       function updateStatus(state, text) {
         statusIndicator.className = "status-indicator";
-
-        if (state === "connected") {
-          statusIndicator.classList.add("connected");
-        } else if (state === "processing") {
-          statusIndicator.classList.add("processing");
-        }
-
+        if (state === "connected") statusIndicator.classList.add("connected");
+        else if (state === "processing") statusIndicator.classList.add("processing");
         statusText.textContent = text;
       }
 
-      // Show/hide processing indicator
-      function showProcessing(text) {
-        processingIndicator.style.display = "flex";
-        processingText.textContent = text;
-      }
-
-      function hideProcessing() {
-        processingIndicator.style.display = "none";
-        updateStatus("connected", "সংযুক্ত");
-      }
-
-      // Hide welcome message
-      function hideWelcome() {
-        if (welcomeMessage) {
-          welcomeMessage.style.display = "none";
-        }
-      }
-
-      // Clear chat
+      function showProcessing(text) { processingIndicator.style.display = "flex"; processingText.textContent = text; }
+      function hideProcessing() { processingIndicator.style.display = "none"; updateStatus("connected", "সংযুক্ত"); }
+      function hideWelcome() { if (welcomeMessage) welcomeMessage.style.display = "none"; }
       function clearChat() {
-        chatContainer.innerHTML = `
-                <div class="welcome-message" id="welcomeMessage">
-                    <div class="icon">🎤</div>
-                    <p>মাইক্রোফোন বাটনে ক্লিক করে বাংলায় কথা বলুন</p>
-                    <p style="margin-top: 10px; font-size: 0.85rem;">অথবা নিচে টেক্সট লিখে পাঠাতে পারেন</p>
-                </div>
-            `;
+        chatContainer.innerHTML = `<div class="welcome-message" id="welcomeMessage"><div class="icon">🎤</div><p>মাইক্রোফোন বাটনে ক্লিক করে বাংলায় কথা বলুন</p></div>`;
         audioQueue = [];
       }
-
-      // Scroll to bottom
-      function scrollToBottom() {
-        chatContainer.scrollTop = chatContainer.scrollHeight;
-      }
-
-      // Utility: Float32 to Int16
+      function scrollToBottom() { chatContainer.scrollTop = chatContainer.scrollHeight; }
       function float32ToInt16(float32Array) {
         const int16Array = new Int16Array(float32Array.length);
         for (let i = 0; i < float32Array.length; i++) {
@@ -778,98 +483,23 @@
         }
         return int16Array;
       }
-
-      // Utility: ArrayBuffer to Base64
       function arrayBufferToBase64(buffer) {
-        const bytes = new Uint8Array(buffer);
         let binary = "";
-        for (let i = 0; i < bytes.byteLength; i++) {
-          binary += String.fromCharCode(bytes[i]);
-        }
+        const bytes = new Uint8Array(buffer);
+        for (let i = 0; i < bytes.byteLength; i++) { binary += String.fromCharCode(bytes[i]); }
         return btoa(binary);
       }
-
-      // Utility: Escape HTML
-      function escapeHtml(text) {
-        const div = document.createElement("div");
-        div.textContent = text;
-        return div.innerHTML;
-      }
-
-      // Utility: Create WAV Blob from Raw PCM
+      function escapeHtml(text) { const div = document.createElement("div"); div.textContent = text; return div.innerHTML; }
       function createWavBlob(pcmData, sampleRate) {
         const buffer = new ArrayBuffer(44 + pcmData.byteLength);
         const view = new DataView(buffer);
-
-        // RIFF identifier
-        writeString(view, 0, "RIFF");
-        // file length
-        view.setUint32(4, 36 + pcmData.byteLength, true);
-        // RIFF type
-        writeString(view, 8, "WAVE");
-        // format chunk identifier
-        writeString(view, 12, "fmt ");
-        // format chunk length
-        view.setUint32(16, 16, true);
-        // sample format (raw)
-        view.setUint16(20, 1, true);
-        // channel count
-        view.setUint16(22, 1, true);
-        // sample rate
-        view.setUint32(24, sampleRate, true);
-        // byte rate (sample rate * block align)
-        view.setUint32(28, sampleRate * 2, true);
-        // block align (channel count * bytes per sample)
-        view.setUint16(32, 2, true);
-        // bits per sample
-        view.setUint16(34, 16, true);
-        // data chunk identifier
-        writeString(view, 36, "data");
-        // data chunk length
-        view.setUint32(40, pcmData.byteLength, true);
-
-        // Write the PCM samples
-        const pcmView = new Uint8Array(pcmData);
-        const outView = new Uint8Array(buffer, 44);
-        outView.set(pcmView);
-
+        writeString(view, 0, "RIFF"); view.setUint32(4, 36 + pcmData.byteLength, true); writeString(view, 8, "WAVE"); writeString(view, 12, "fmt "); view.setUint32(16, 16, true); view.setUint16(20, 1, true); view.setUint16(22, 1, true); view.setUint32(24, sampleRate, true); view.setUint32(28, sampleRate * 2, true); view.setUint16(32, 2, true); view.setUint16(34, 16, true); writeString(view, 36, "data"); view.setUint32(40, pcmData.byteLength, true);
+        const pcmView = new Uint8Array(pcmData); const outView = new Uint8Array(buffer, 44); outView.set(pcmView);
         return new Blob([buffer], { type: "audio/wav" });
       }
+      function writeString(view, offset, string) { for (let i = 0; i < string.length; i++) { view.setUint8(offset + i, string.charCodeAt(i)); } }
 
-      function writeString(view, offset, string) {
-        for (let i = 0; i < string.length; i++) {
-          view.setUint8(offset + i, string.charCodeAt(i));
-        }
-      }
-
-      // UI: Add Audio Message Bubble
-      function addAudioMessage(role, audioUrl) {
-        hideWelcome();
-        const messageDiv = document.createElement("div");
-        messageDiv.className = `message ${role}`;
-
-        const label = role === "user" ? "আপনি" : "AI সহকারী";
-
-        messageDiv.innerHTML = `
-                <div>
-                    <div class="message-label">${label}</div>
-                    <div class="message-bubble" style="padding: 5px 10px;">
-                        <audio controls src="${audioUrl}" style="height: 40px; max-width: 220px; outline: none;"></audio>
-                    </div>
-                </div>
-            `;
-
-        chatContainer.appendChild(messageDiv);
-        scrollToBottom();
-      }
-      // Keepalive ping
-      setInterval(() => {
-        if (ws && ws.readyState === WebSocket.OPEN) {
-          ws.send(JSON.stringify({ type: "ping" }));
-        }
-      }, 30000);
-
-      // Initialize
+      setInterval(() => { if (ws && ws.readyState === WebSocket.OPEN) { ws.send(JSON.stringify({ type: "ping" })); } }, 30000);
       initWebSocket();
     </script>
   </body>
